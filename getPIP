@@ -1,0 +1,35 @@
+#!/bin/bash
+the_time=`date +%D_%R`
+
+server_address=google-linux
+server_uname=sir_ssh
+server_key=/home/pi/.ssh/id_rsa
+
+
+# Consultar IP en el servidor
+echo "v3 $the_time Starting script" >> /home/pi/.ssh/getPIP.log
+old_ip=`ssh $server_uname\@$server_address -i $server_key 'tail -n 1 PiIP'` 2>> /home/pi/.ssh/getPIP.log
+echo "v3 $the_time Startup IP at Server $old_ip" >> /home/pi/.ssh/getPIP.log
+
+while true
+do
+# Check RPi public IP, and serverside stored IP
+new_ip=`dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | sed 's/"//g'`
+# Save the time
+the_time=`date +%D_%R`
+
+# Si la IP en el servidor es igual a la IP publica actual, entonces no hace falta actualizarla, si es diferente si.
+if  [ "$new_ip" != "$old_ip" ]
+
+then # Es necesario actualizar
+ssh $server_uname\@$server_address -i $server_key "echo $new_ip >> PiIP" 2>> /home/pi/.ssh/getPIP.log  # Send new IP to the google linux server
+#old_ip=$new_ip # este paso no es necesario, al actualizar la ip en el servidor el proximo loop tomara la direccion nueva si el update fue correcto
+echo "v3 $the_time Update IP to $new_ip" >> /home/pi/.ssh/getPIP.log
+
+else # No es necesario actualizar
+echo "v3 $the_time IP Unchanged $new_ip" >> /home/pi/.ssh/getPIP.log
+fi
+
+sleep 600  # Sleep 10 minutes before next check
+old_ip=`ssh $server_uname\@$server_address -i $server_key 'tail -n 1 PiIP'`  # Retrieve IP from the server
+done
