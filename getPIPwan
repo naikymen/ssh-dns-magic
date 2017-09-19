@@ -1,0 +1,15 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+echo "Getting IP from server"
+
+# this is the script that gets the IP from the google/amazon cloud server
+# connection parameters are taken as arguments, and the script is lanched using a Termux Shortcut Widget
+# simply put a file in ~/.shortcuts that contains: bash /storage/emulated/0/getPIPwan CLOUD_SERVER_IP YOUR_USER_NAME RSA_KEY_PATH
+
+host_name=$1
+user_name=$2
+key_path=$3
+
+PiIP=`ssh $user_name@$host_name -i $key_path 'tail -n 1 PiIP'`
+
+echo "PiIP is: $PiIP"
