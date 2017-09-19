@@ -2,13 +2,12 @@
 
 echo "Script requires the server IP as first argument, and server ssh key path as second, and port for incoming ssh connections to the Pi as third"
 
-if [ "$1" = "" ]
-then
-echo "First argument is empty, server IP adress is needed"
-else
+host_name=$1
+user_name=$2
+rsa_key_path=$3
+
 echo "Geting IP from server"
-key_name=$2
-PiIP=`ssh sir_ssh@$1 -i $2 'tail -n 1 PiIP'`
+
+PiIP=`ssh $2@$1 -i $3 'tail -n 1 PiIP'`
 echo "PiIP is: $PiIP"
 ssh pi@$PiIP -p $3
-fi
