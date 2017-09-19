@@ -1,20 +1,15 @@
 #!/bin/bash
 
-PiIP=`ssh sir_ssh@104.198.55.101 -i /home/naikymen/.ssh/google-linux 'tail -n 1 PiIP'`
+echo "Script requires the server username as first argument, server ip as second, server rsa key as third"
+echo "Pi rsa key as fourth, and port number for incoming ssh connections to the Pi as fifth"
 
-sshfs pi@$PiIP:/home/pi/ ~/Pi -p 52796 -o IdentityFile=~/.ssh/id_rsa
+cloudserver_username=$1
+cloudserver_ip=$2
+cloud_rsakey_path=$3
+pi_rsakey_path=$4
+pi_wan_port=$5
 
+#get the ip
+PiIP=`ssh $cloudserver_username@$cloudserver_ip -i $cloud_rsakey_path 'tail -n 1 PiIP'`
 
-echo "Script requires the server IP as first argument, server ssh key path as second, port for incoming ssh connections to the Pi as third, Pi ssh key path as fourth argument"
-
-if [ "$1" = "" ]
-then
-echo "First argument is empty, please provide the 4 arguments"
-else
-echo "Geting IP from server"
-key_name=$2
-PiIP=`ssh sir_ssh@$1 -i $2 'tail -n 1 PiIP'`
-echo "PiIP is: $PiIP"
-sshfs pi@$PiIP:/home/pi/ ~/Pi -p $3 -o IdentityFile=~/.ssh/$4
-fi
-
+sshfs pi@$PiIP:/home/pi/ ~/Pi -p $pi_wan_port -o IdentityFile=$pi_rsakey_path
