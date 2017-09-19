@@ -5,9 +5,10 @@ echo "Script requires the server IP as first argument, and server ssh key path a
 host_name=$1
 user_name=$2
 rsa_key_path=$3
+pi_wan_port=$4
 
 echo "Geting IP from server"
 
-PiIP=`ssh $2@$1 -i $3 'tail -n 1 PiIP'`
+PiIP=`ssh $user_name@$host_name -i $rsa_key_path 'tail -n 1 PiIP'`
 echo "PiIP is: $PiIP"
-ssh pi@$PiIP -p $3
+ssh pi@$PiIP -p pi_wan_port
