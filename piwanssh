@@ -11,4 +11,4 @@ echo "Geting IP from server"
 
 PiIP=`ssh $user_name@$host_name -i $rsa_key_path 'tail -n 1 PiIP'`
 echo "PiIP is: $PiIP"
-ssh pi@$PiIP -p pi_wan_port
+ssh pi@$PiIP -p $pi_wan_port
