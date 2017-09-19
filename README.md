@@ -2,9 +2,9 @@
 
 ilovessh
 
-These super raw draft scripts make the pi get its public IP every 10 minutes, and store it on a remote google or AWS server (I used google) when it changes. This Pi-side script must be configured with your server ip and keys. Read it.
-The client-side script simply retrieves the public IP from the server, and uses it to connect SSH directly to the pi. The client side script takes arguments for the server IP, server keys, Pi keys and Pi port.
-Customize the scripts and/or or use the ~/.ssh/config files on the Pi and Client to make things easier. Put the scripts in /usr/local/bin/ and give them permissions for execution =)
+These super raw draft scripts make the pi get its public IP every 10 minutes, and store it on a remote google or AWS server (I used google) when it changes. This Pi-side script must be configured with your server ip and keys. Read it. Applications are endless.
+The client-side script simply retrieves the public IP from the server, and uses it to connect SSH directly to the pi. The client side script takes arguments for the server IP, server keys, Pi keys and Pi port. The client might be a PC or Android phone.
+Customize the scripts and/or or use the ~/.ssh/config files on the Pi and Client to make things easier. for convenienve, put the scripts in /usr/local/bin/ and give them permissions for execution =)
 
 You must setup port-forwarding on your home network, and forward a port of choice to the Pi.
 
